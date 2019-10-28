@@ -26,8 +26,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var prevNumOfEmptyBox = 0
     var direction = 0
     var positionIndex = 0
-    var leapYear = 2
+    var leapYear = 3
     var dayCounter = 0
+    
+    //Function to make main.storyboard to appear
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         getStartDatePosition()
     }
  
+    //  main function that counts the postion of the 1st day of the month and emptyBoxes that are made to fill up the void
+    
+    // NB: can be used in future to create the full calendar list
     
     func getStartDatePosition() {
         switch direction {
@@ -66,7 +71,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
              
         case 1...:
             nextNumOfEmptyBox = (positionIndex + monthsLastDay[month])%7
-            positionIndex = numOfEmptyBox
+            positionIndex = nextNumOfEmptyBox
         case -1:
             prevNumOfEmptyBox = (7 - (monthsLastDay[month] - positionIndex)%7)
             if prevNumOfEmptyBox == 7 {
@@ -78,7 +83,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    
+    // function of the button, that scrolls through monthes forward
     
     @IBAction func Next(_ sender: Any) {
         switch currentMonth {
@@ -122,6 +127,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             month += 1
             
             currentMonth = months[month]
+            
+//            UIButton.text = "\(currentMonth+1)"
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
             
@@ -129,6 +136,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
+    // function of the button, that scrolls through monthes backward
     
     @IBAction func Back(_ sender: Any) {
         switch currentMonth {
@@ -174,6 +182,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
+    
+    //function to return the amount of boxes that shuld be made
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -189,6 +199,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
     }
+    
+    //function that fills appropriate boxes with numbers, so it can start creating the calendar
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Calendar", for: indexPath) as! DateCollectionViewCell
