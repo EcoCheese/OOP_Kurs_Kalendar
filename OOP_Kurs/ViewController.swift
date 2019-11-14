@@ -8,6 +8,10 @@
 
 import UIKit
 
+var dateString = ""
+var monthString = ""
+var yearString = ""
+
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
@@ -15,6 +19,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var Calendar: UICollectionView!
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
+
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+    
+    
+    
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -28,6 +38,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var positionIndex = 0
     var leapYear = 3
     var dayCounter = 0
+    var dateSelection = -1
+    
+    var minMonth = String()
+    var plusMonth = String()
     
     //Function to make main.storyboard to appear
     
@@ -35,6 +49,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.viewDidLoad()
         
         currentMonth = months[month]
+        minMonth = months[month-1]
+        plusMonth = months[month+1]
+        
+        
         monthLabel.text = "\(currentMonth)"
         yearLabel.text = "\(year)"
         yearLabel.textColor = .systemGreen
@@ -43,6 +61,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             weekday = 7
         }
         
+        
+        backButton.setTitle("\(minMonth)", for: .normal)
+        nextButton.setTitle("\(plusMonth)", for: .normal)
+
         getStartDatePosition()
     }
  
@@ -86,6 +108,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // function of the button, that scrolls through monthes forward
     
     @IBAction func Next(_ sender: Any) {
+        
+        
+        
+        dateSelection = -1
+        
         switch currentMonth {
         case "December":
             direction = 1
@@ -116,7 +143,36 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
             
+            minMonth = months[11]
+            plusMonth = months[1]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
+            
             Calendar.reloadData()
+            
+            
+        case "November":
+            
+            direction = 1
+            
+            month += 1
+            
+            getStartDatePosition()
+            
+            currentMonth = months[month]
+            
+            monthLabel.text = "\(currentMonth)"
+            yearLabel.text = "\(year)"
+            
+            minMonth = months[10]
+            plusMonth = months[0]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
+            
+            Calendar.reloadData()
+            
             
         default:
             
@@ -128,9 +184,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             currentMonth = months[month]
             
-//            UIButton.text = "\(currentMonth+1)"
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
+            
+            minMonth = months[month-1]
+            plusMonth = months[month+1]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
             
             Calendar.reloadData()
         }
@@ -139,12 +200,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // function of the button, that scrolls through monthes backward
     
     @IBAction func Back(_ sender: Any) {
+        
+        dateSelection = -1
+        
         switch currentMonth {
         case "January":
             direction = -1
             
             month = 11
             year -= 1
+            
             
             if leapYear > 0 {
                 leapYear -= 1
@@ -164,6 +229,33 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
             
+            minMonth = months[month-1]
+            plusMonth = months[0]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
+            
+            Calendar.reloadData()
+            
+        case "February":
+            
+            direction = -1
+            
+            month -= 1
+            
+            getStartDatePosition()
+            
+            currentMonth = months[month]
+            
+            monthLabel.text = "\(currentMonth)"
+            yearLabel.text = "\(year)"
+            
+            minMonth = months[11]
+            plusMonth = months[1]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
+            
             Calendar.reloadData()
             
         default:
@@ -178,9 +270,24 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
             
+            
+            minMonth = months[month-1]
+            plusMonth = months[month+1]
+            
+            backButton.setTitle("\(minMonth)", for: .normal)
+            nextButton.setTitle("\(plusMonth)", for: .normal)
+            
             Calendar.reloadData()
         }
+        
+//        minMonth = months[month-1]
+//        plusMonth = months[month+1]
+//
+//        backButton.setTitle("\(minMonth)", for: .normal)
+//        nextButton.setTitle("\(plusMonth)", for: .normal)
     }
+    
+    
     
     
     //function to return the amount of boxes that shuld be made
@@ -206,8 +313,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Calendar", for: indexPath) as! DateCollectionViewCell
         
         cell.backgroundColor = UIColor.clear
-        cell.DateLabel.textColor = UIColor.black
+        cell.DateLabel.textColor = .label
         cell.DateLabel.font = UIFont.systemFont(ofSize: 13)
+        
+        cell.Rectangle.isHidden = true
         
         if cell.isHidden {
             cell.isHidden = false
@@ -238,12 +347,40 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 - numOfEmptyBox == day{
-            cell.backgroundColor = UIColor.systemGreen
+            
+            cell.Rectangle.isHidden = false
+            cell.frameAppear()
+            
+            cell.DateLabel.textColor = .label
+            cell.DateLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        }
+            
+         if dateSelection == indexPath.row {
+            
+            
+            cell.Rectangle.isHidden = false
+            cell.rectangleAppear()
             cell.DateLabel.textColor = UIColor.white
             cell.DateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        dateString = "\(indexPath.row - positionIndex + 1)"
+        monthString = "\(currentMonth)"
+        yearString = "\(year)"
+        
+        
+        performSegue(withIdentifier: "DateView", sender: self)
+        
+        dateSelection = indexPath.row
+        collectionView.reloadData()
+        
+        
+        
     }
 
 }
