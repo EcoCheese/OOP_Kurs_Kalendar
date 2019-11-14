@@ -156,9 +156,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             direction = 1
             
+            getStartDatePosition()
+            
             month += 1
             
-            getStartDatePosition()
             
             currentMonth = months[month]
             
