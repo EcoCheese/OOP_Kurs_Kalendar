@@ -23,6 +23,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
+    @IBOutlet weak var addEventButton: UIButton!
     
     
     
@@ -289,6 +290,25 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
+    @IBAction func onAddEventClicked(_ sender: Any) {
+        print(dateSelection, currentMonth, year)
+        
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        
+        guard let destinationViewController = mainStoryboard.instantiateViewController(withIdentifier: "PopPickerViewController") as? PopPickerViewController else{
+            print("No viewController")
+            return
+        }
+        
+//        if dateSelection != -1 {
+            navigationController?.pushViewController(destinationViewController, animated: true)
+//        } else {
+//            print("out of reach")
+//        }
+        
+        
+    }
     
     
     //function to return the amount of boxes that shuld be made
@@ -378,6 +398,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         performSegue(withIdentifier: "DateView", sender: self)
         
         dateSelection = indexPath.row
+        
+        
+        
         collectionView.reloadData()
         
         

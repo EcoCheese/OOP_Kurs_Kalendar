@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0973452C237DA77B00A8C06B /* Kalendar1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973452B237DA77A00A8C06B /* Kalendar1024x1024.png */; };
 		09734531237DCE7500A8C06B /* DateSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09734530237DCE7500A8C06B /* DateSectionViewController.swift */; };
+		09BDCD502382D6A300451B83 /* PopPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */; };
 		7549CBCB2353BF2E0049C564 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCA2353BF2E0049C564 /* AppDelegate.swift */; };
 		7549CBCD2353BF2E0049C564 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCC2353BF2E0049C564 /* SceneDelegate.swift */; };
 		7549CBCF2353BF2E0049C564 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCE2353BF2E0049C564 /* ViewController.swift */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		0973452B237DA77A00A8C06B /* Kalendar1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Kalendar1024x1024.png; path = icons/Kalendar1024x1024.png; sourceTree = SOURCE_ROOT; };
 		09734530237DCE7500A8C06B /* DateSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSectionViewController.swift; sourceTree = "<group>"; };
+		09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopPickerViewController.swift; sourceTree = "<group>"; };
 		7549CBC72353BF2E0049C564 /* Kalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7549CBCA2353BF2E0049C564 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7549CBCC2353BF2E0049C564 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				7549CBFC2353C5520049C564 /* CalendarVariables.swift */,
 				7549CBFA2353C2FF0049C564 /* DateCollectionViewCell.swift */,
 				09734530237DCE7500A8C06B /* DateSectionViewController.swift */,
+				09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */,
 				7549CBD02353BF2E0049C564 /* Main.storyboard */,
 				7549CBD32353BF300049C564 /* Assets.xcassets */,
 				7549CBD52353BF300049C564 /* LaunchScreen.storyboard */,
@@ -286,6 +289,7 @@
 				7549CBCB2353BF2E0049C564 /* AppDelegate.swift in Sources */,
 				7549CBCD2353BF2E0049C564 /* SceneDelegate.swift in Sources */,
 				7549CBFD2353C5520049C564 /* CalendarVariables.swift in Sources */,
+				09BDCD502382D6A300451B83 /* PopPickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
