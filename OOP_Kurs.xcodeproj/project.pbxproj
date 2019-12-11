@@ -10,6 +10,7 @@
 		0973452C237DA77B00A8C06B /* Kalendar1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973452B237DA77A00A8C06B /* Kalendar1024x1024.png */; };
 		09734531237DCE7500A8C06B /* DateSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09734530237DCE7500A8C06B /* DateSectionViewController.swift */; };
 		09BDCD502382D6A300451B83 /* PopPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */; };
+		753EC821238D2C5700E2C309 /* MonthTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753EC820238D2C5700E2C309 /* MonthTableViewCell.swift */; };
 		7549CBCB2353BF2E0049C564 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCA2353BF2E0049C564 /* AppDelegate.swift */; };
 		7549CBCD2353BF2E0049C564 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCC2353BF2E0049C564 /* SceneDelegate.swift */; };
 		7549CBCF2353BF2E0049C564 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBCE2353BF2E0049C564 /* ViewController.swift */; };
@@ -20,6 +21,8 @@
 		7549CBED2353BF310049C564 /* OOP_KursUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBEC2353BF310049C564 /* OOP_KursUITests.swift */; };
 		7549CBFB2353C2FF0049C564 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBFA2353C2FF0049C564 /* DateCollectionViewCell.swift */; };
 		7549CBFD2353C5520049C564 /* CalendarVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBFC2353C5520049C564 /* CalendarVariables.swift */; };
+		7555D41023A11F3E008B9425 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555D40F23A11F3E008B9425 /* CoreDataManager.swift */; };
+		7555D41323A12816008B9425 /* EventDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,7 @@
 		0973452B237DA77A00A8C06B /* Kalendar1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Kalendar1024x1024.png; path = icons/Kalendar1024x1024.png; sourceTree = SOURCE_ROOT; };
 		09734530237DCE7500A8C06B /* DateSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSectionViewController.swift; sourceTree = "<group>"; };
 		09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopPickerViewController.swift; sourceTree = "<group>"; };
+		753EC820238D2C5700E2C309 /* MonthTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTableViewCell.swift; sourceTree = "<group>"; };
 		7549CBC72353BF2E0049C564 /* Kalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7549CBCA2353BF2E0049C564 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7549CBCC2353BF2E0049C564 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +63,8 @@
 		7549CBEE2353BF310049C564 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7549CBFA2353C2FF0049C564 /* DateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionViewCell.swift; sourceTree = "<group>"; };
 		7549CBFC2353C5520049C564 /* CalendarVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVariables.swift; sourceTree = "<group>"; };
+		7555D40F23A11F3E008B9425 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		7555D41223A12816008B9425 /* EventDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EventDataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,9 +132,12 @@
 				09734530237DCE7500A8C06B /* DateSectionViewController.swift */,
 				09BDCD4F2382D6A300451B83 /* PopPickerViewController.swift */,
 				7549CBD02353BF2E0049C564 /* Main.storyboard */,
+				753EC820238D2C5700E2C309 /* MonthTableViewCell.swift */,
 				7549CBD32353BF300049C564 /* Assets.xcassets */,
 				7549CBD52353BF300049C564 /* LaunchScreen.storyboard */,
 				7549CBD82353BF300049C564 /* Info.plist */,
+				7555D40F23A11F3E008B9425 /* CoreDataManager.swift */,
+				7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */,
 			);
 			path = OOP_Kurs;
 			sourceTree = "<group>";
@@ -287,7 +296,10 @@
 				7549CBFB2353C2FF0049C564 /* DateCollectionViewCell.swift in Sources */,
 				7549CBCF2353BF2E0049C564 /* ViewController.swift in Sources */,
 				7549CBCB2353BF2E0049C564 /* AppDelegate.swift in Sources */,
+				7555D41323A12816008B9425 /* EventDataModel.xcdatamodeld in Sources */,
+				753EC821238D2C5700E2C309 /* MonthTableViewCell.swift in Sources */,
 				7549CBCD2353BF2E0049C564 /* SceneDelegate.swift in Sources */,
+				7555D41023A11F3E008B9425 /* CoreDataManager.swift in Sources */,
 				7549CBFD2353C5520049C564 /* CalendarVariables.swift in Sources */,
 				09BDCD502382D6A300451B83 /* PopPickerViewController.swift in Sources */,
 			);
@@ -620,6 +632,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7555D41223A12816008B9425 /* EventDataModel.xcdatamodel */,
+			);
+			currentVersion = 7555D41223A12816008B9425 /* EventDataModel.xcdatamodel */;
+			path = EventDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7549CBBF2353BF2E0049C564 /* Project object */;
 }

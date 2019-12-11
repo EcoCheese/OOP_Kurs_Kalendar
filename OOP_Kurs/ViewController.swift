@@ -11,8 +11,24 @@ import UIKit
 var dateString = ""
 var monthString = ""
 var yearString = ""
+var event = [String()]
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDataSource, UITableViewDelegate{
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return event.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as! MonthTableViewCell
+        
+//        MonthTableViewCell.
+        
+        return cell
+    }
     
     
 
@@ -25,6 +41,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBOutlet weak var addEventButton: UIButton!
     
+    @IBOutlet weak var tableView: UITableView!
     
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -40,6 +57,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var leapYear = 3
     var dayCounter = 0
     var dateSelection = -1
+    var selectedDate = 0
     
     var minMonth = String()
     var plusMonth = String()
@@ -50,8 +68,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.viewDidLoad()
         
         currentMonth = months[month]
-        minMonth = months[month-1]
-        plusMonth = months[month+1]
+        if(currentMonth == "January"){
+            minMonth = months[11]
+        } else {
+            minMonth = months[month-1]
+        }
+        
+        
+        if(currentMonth == "December"){
+            plusMonth = months[0]
+        } else {
+             plusMonth = months[month+1]
+        }
+        
+        
         
         
         monthLabel.text = "\(currentMonth)"
@@ -67,9 +97,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         nextButton.setTitle("\(plusMonth)", for: .normal)
 
         getStartDatePosition()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView(frame: .zero)
     }
  
-    //  main function that counts the postion of the 1st day of the month and emptyBoxes that are made to fill up the void
+    //  main function that counts the position of the 1st day of the month and emptyBoxes that are made to fill up the void
     
     // NB: can be used in future to create the full calendar list
     
@@ -109,8 +143,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // function of the button, that scrolls through monthes forward
     
     @IBAction func Next(_ sender: Any) {
-        
-        
         
         dateSelection = -1
         
@@ -291,18 +323,19 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     
     @IBAction func onAddEventClicked(_ sender: Any) {
-        print(dateSelection, currentMonth, year)
+        //MARK: very important variables
+        print(selectedDate, currentMonth, year)
         
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
         
-        guard let destinationViewController = mainStoryboard.instantiateViewController(withIdentifier: "PopPickerViewController") as? PopPickerViewController else{
-            print("No viewController")
-            return
-        }
+//        guard let destinationViewController = mainStoryboard.instantiateViewController(withIdentifier: "PopPickerViewController") as? PopPickerViewController else{
+//            print("No viewController")
+//            return
+//        }
         
 //        if dateSelection != -1 {
-            navigationController?.pushViewController(destinationViewController, animated: true)
+//            navigationController?.pushViewController(destinationViewController, animated: true)
 //        } else {
 //            print("out of reach")
 //        }
@@ -311,7 +344,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    //function to return the amount of boxes that shuld be made
+    //function to return the amount of boxes that shоuld be made
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -331,6 +364,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     //function that fills appropriate boxes with numbers, so it can start creating the calendar
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Calendar", for: indexPath) as! DateCollectionViewCell
         
         cell.backgroundColor = UIColor.clear
@@ -368,10 +402,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 - numOfEmptyBox == day{
-            
+
             cell.Rectangle.isHidden = false
             cell.frameAppear()
-            
+
             cell.DateLabel.textColor = .label
             cell.DateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         }
@@ -388,24 +422,34 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    //function of selecting items in the collection
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         dateString = "\(indexPath.row - positionIndex + 1)"
         monthString = "\(currentMonth)"
         yearString = "\(year)"
         
-        
-        performSegue(withIdentifier: "DateView", sender: self)
-        
         dateSelection = indexPath.row
+        selectedDate = indexPath.row - positionIndex + 1
         
         
-        
-        collectionView.reloadData()
+        tableView.reloadData()
+        Calendar.reloadData()
         
         
         
     }
 
 }
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let bounds = collectionView.bounds
+        
+        return CGSize(width: bounds.width/8, height: 30)
+    }
+}
+
 
