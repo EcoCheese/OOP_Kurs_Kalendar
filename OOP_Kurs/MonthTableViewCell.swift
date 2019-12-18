@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct eventData {
-    var eventStart = Date()
-    var eventEnd = Date()
-    var eventText = String()
-}
 
 class MonthTableViewCell: UITableViewCell{
 
@@ -33,7 +28,7 @@ class MonthTableViewCell: UITableViewCell{
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-//        eventNameLabel?.text
+//        eventNameLabel?.text =
         // Configure the view for the selected state
     }
 

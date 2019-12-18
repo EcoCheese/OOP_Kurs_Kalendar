@@ -22,7 +22,7 @@
 		7549CBFB2353C2FF0049C564 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBFA2353C2FF0049C564 /* DateCollectionViewCell.swift */; };
 		7549CBFD2353C5520049C564 /* CalendarVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7549CBFC2353C5520049C564 /* CalendarVariables.swift */; };
 		7555D41023A11F3E008B9425 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555D40F23A11F3E008B9425 /* CoreDataManager.swift */; };
-		7555D41323A12816008B9425 /* EventDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */; };
+		7555D41323A12816008B9425 /* OOP_Kurs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7555D41123A12816008B9425 /* OOP_Kurs.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,7 +137,7 @@
 				7549CBD52353BF300049C564 /* LaunchScreen.storyboard */,
 				7549CBD82353BF300049C564 /* Info.plist */,
 				7555D40F23A11F3E008B9425 /* CoreDataManager.swift */,
-				7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */,
+				7555D41123A12816008B9425 /* OOP_Kurs.xcdatamodeld */,
 			);
 			path = OOP_Kurs;
 			sourceTree = "<group>";
@@ -296,7 +296,7 @@
 				7549CBFB2353C2FF0049C564 /* DateCollectionViewCell.swift in Sources */,
 				7549CBCF2353BF2E0049C564 /* ViewController.swift in Sources */,
 				7549CBCB2353BF2E0049C564 /* AppDelegate.swift in Sources */,
-				7555D41323A12816008B9425 /* EventDataModel.xcdatamodeld in Sources */,
+				7555D41323A12816008B9425 /* OOP_Kurs.xcdatamodeld in Sources */,
 				753EC821238D2C5700E2C309 /* MonthTableViewCell.swift in Sources */,
 				7549CBCD2353BF2E0049C564 /* SceneDelegate.swift in Sources */,
 				7555D41023A11F3E008B9425 /* CoreDataManager.swift in Sources */,
@@ -634,13 +634,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		7555D41123A12816008B9425 /* EventDataModel.xcdatamodeld */ = {
+		7555D41123A12816008B9425 /* OOP_Kurs.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				7555D41223A12816008B9425 /* EventDataModel.xcdatamodel */,
 			);
 			currentVersion = 7555D41223A12816008B9425 /* EventDataModel.xcdatamodel */;
-			path = EventDataModel.xcdatamodeld;
+			path = OOP_Kurs.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

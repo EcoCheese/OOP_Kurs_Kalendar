@@ -19,7 +19,7 @@ class CoreDataStack {
         // MARK: - Core Data stack
 
         lazy var persistentContainer: NSPersistentContainer = {
-            let container = NSPersistentContainer(name: "Greensens")
+            let container = NSPersistentContainer(name: "OOP_Kurs")
             container.loadPersistentStores(completionHandler: { (storeDescription, error) in
                 if let error = error as NSError? {
                     fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -75,3 +75,19 @@ class CoreDataStack {
         }
         
     }
+
+extension CoreDataStack {
+    
+    func newEvent (startDate: Int64, startTime: Int64, duration: Int64, eventText: String, importance: Int16, repeatCounter: Int16) -> Event?{
+        
+        let event = Event(context: persistentContainer.viewContext)
+        event.startDate = startDate
+        event.startTime = startTime
+        event.duration = duration
+        event.eventText = eventText
+        
+        return event
+    }
+    
+
+}

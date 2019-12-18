@@ -7,6 +7,7 @@
 //
 
 import UIKit
+//import CoreData
 
 var dateString = ""
 var monthString = ""
@@ -14,22 +15,6 @@ var yearString = ""
 var event = [String()]
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDataSource, UITableViewDelegate{
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return event.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as! MonthTableViewCell
-        
-//        MonthTableViewCell.
-        
-        return cell
-    }
-    
     
 
     @IBOutlet weak var Calendar: UICollectionView!
@@ -46,7 +31,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    var monthsLastDay = [31,28,31,30,31,30,31,31,30,31,30,31]
+    
     var currentMonth = String()
     
     var numOfEmptyBox = Int() //amount of
@@ -58,6 +43,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var dayCounter = 0
     var dateSelection = -1
     var selectedDate = 0
+    var cellId = 0
     
     var minMonth = String()
     var plusMonth = String()
@@ -74,15 +60,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             minMonth = months[month-1]
         }
         
-        
         if(currentMonth == "December"){
             plusMonth = months[0]
         } else {
              plusMonth = months[month+1]
         }
-        
-        
-        
         
         monthLabel.text = "\(currentMonth)"
         yearLabel.text = "\(year)"
@@ -92,7 +74,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             weekday = 7
         }
         
-        
+    
         backButton.setTitle("\(minMonth)", for: .normal)
         nextButton.setTitle("\(plusMonth)", for: .normal)
 
@@ -105,7 +87,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
  
     //  main function that counts the position of the 1st day of the month and emptyBoxes that are made to fill up the void
     
-    // NB: can be used in future to create the full calendar list
+    // NB: can be used in future to create the full calendar table
     
     func getStartDatePosition() {
         switch direction {
@@ -167,8 +149,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 monthsLastDay[1] = 28
             }
             
-            
-            
             getStartDatePosition()
             
             currentMonth = months[month]
@@ -192,7 +172,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             getStartDatePosition()
             
             month += 1
-            
             
             currentMonth = months[month]
             
@@ -243,7 +222,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             month = 11
             year -= 1
-            
             
             if leapYear > 0 {
                 leapYear -= 1
@@ -304,7 +282,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             monthLabel.text = "\(currentMonth)"
             yearLabel.text = "\(year)"
             
-            
             minMonth = months[month-1]
             plusMonth = months[month+1]
             
@@ -314,33 +291,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             Calendar.reloadData()
         }
         
-//        minMonth = months[month-1]
-//        plusMonth = months[month+1]
-//
-//        backButton.setTitle("\(minMonth)", for: .normal)
-//        nextButton.setTitle("\(plusMonth)", for: .normal)
     }
     
     
     @IBAction func onAddEventClicked(_ sender: Any) {
         //MARK: very important variables
-        print(selectedDate, currentMonth, year)
         
-//        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
-        
-//        guard let destinationViewController = mainStoryboard.instantiateViewController(withIdentifier: "PopPickerViewController") as? PopPickerViewController else{
-//            print("No viewController")
-//            return
-//        }
-        
-//        if dateSelection != -1 {
-//            navigationController?.pushViewController(destinationViewController, animated: true)
-//        } else {
-//            print("out of reach")
-//        }
-        
-        
+        cellId = selectedDate*1000000 + (month+1)*10000 + year
+        print(cellId)
+        print(selectedDate, month+1, year)
+   
     }
     
     
@@ -410,7 +370,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             cell.DateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         }
             
-         if dateSelection == indexPath.row {
+        if dateSelection == indexPath.row {
+            
+            cellId = selectedDate + (month+1)*100 + year*10000
+            print(cellId)
             
             
             cell.Rectangle.isHidden = false
@@ -433,12 +396,22 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         dateSelection = indexPath.row
         selectedDate = indexPath.row - positionIndex + 1
         
-        
         tableView.reloadData()
         Calendar.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        return event.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as! MonthTableViewCell
         
+        cell.eventNameLabel.text = "\(cellId)"
+        
+        return cell
     }
 
 }
