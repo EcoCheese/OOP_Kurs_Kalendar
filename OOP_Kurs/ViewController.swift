@@ -36,9 +36,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        for event in Event {
-//            print(event.name)
-//        }
         
         currentMonth = months[month]
         if(currentMonth == "January"){
@@ -70,6 +67,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: .zero)
+        
     }
  
     //  main function that counts the position of the 1st day of the month and emptyBoxes that are made to fill up the void
@@ -412,7 +410,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         view.backgroundColor = .white
         
         let label = UILabel()
-//        label.font = UIFont.customFont(.medium, ofSize: 21)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.text = "\(selectedDate) " + currentMonth + " \(year)"
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -449,10 +447,38 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as! MonthTableViewCell
         
         
+        
 
         let event = eventArr[indexPath.row]
         cell.eventNameLabel.text = event.eventText
-        cell.timeStartLabel.text = "\(event.startTime)"
+        
+        if event.importance == 1 {
+            cell.importanceLabel.text = "!"
+        } else if event.importance == 2 {
+            cell.importanceLabel.text = "!!"
+        } else {
+            cell.importanceLabel.text = ""
+        }
+        
+
+        
+        let hourTime = event.startTime/60
+        let minuteTime = event.startTime%60
+        if minuteTime < 10 {
+            cell.timeStartLabel.text = "\(hourTime):0\(minuteTime)"
+        } else {
+            cell.timeStartLabel.text = "\(hourTime):\(minuteTime)"
+        }
+        
+        let endHourTime = (event.startTime + event.duration)/60
+        let endMinuteTime = (event.startTime + event.duration)%60
+        if endMinuteTime < 10 {
+            cell.timeEndLabel.text = "\(endHourTime):0\(endMinuteTime)"
+        } else {
+            cell.timeEndLabel.text = "\(endHourTime):\(endMinuteTime)"
+        }
+        
+        
         
         
         

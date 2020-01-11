@@ -15,6 +15,9 @@ class MonthTableViewCell: UITableViewCell{
 
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var timeStartLabel: UILabel!
+    @IBOutlet weak var timeEndLabel: UILabel!
+    
+    @IBOutlet weak var importanceLabel: UILabel!
     
     
     

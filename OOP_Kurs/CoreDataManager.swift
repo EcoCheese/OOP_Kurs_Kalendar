@@ -63,7 +63,8 @@ class CoreDataStack {
             let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
             fetchRequest.predicate = predicate
             
-            
+            let sortDescriptorImp = NSSortDescriptor(key: "importance", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptorImp]
              //check
             let sortDescriptor = NSSortDescriptor(key: "startTime", ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
@@ -91,6 +92,7 @@ extension CoreDataStack {
         event.startTime = startTime
         event.duration = duration
         event.eventText = eventText
+        event.importance = importance
         
         return event
     }

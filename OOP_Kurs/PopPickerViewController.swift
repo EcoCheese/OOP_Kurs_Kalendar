@@ -43,7 +43,7 @@ class PopPickerViewController: UIViewController {
         repeatStepper.wraps = true
         repeatStepper.autorepeat = true
         
-        //MARK: enabling textFields to show picked date
+        //MARK: - enabling textFields to show picked date
         
 //        startTextField.text = "\(cellId)"
         
@@ -94,81 +94,95 @@ class PopPickerViewController: UIViewController {
         //taking dates from our textInputs
         let dateStart = dateFormatter.date(from: startTextField.text!)!
         let dateEnd = dateFormatter.date(from: endTextField.text!)!
-        let dateEndRepeat = dateFormatter3.date(from: repeatEndTextField.text!)!
         
-        //repeater amount
-        let repeater = Int(repeatLabelCounter.text!)
-        print("repeater:")
-        print(Int16(repeater!))
         
-        //counting the duration
-        let interval = Calendar.current.dateComponents([.minute], from: dateStart, to: dateEnd)
-        let duration = interval.minute
-        print("duration:")
-        print(Int64(duration!))
-        
-        //id of the start date
-        let dateStringExtra = dateFormatter2.string(from: dateStart)
-        var dateInt = Int(dateStringExtra)
-        print("start date:")
-        print(dateInt!)
-        
-        //start time
-        let timePointHour = Calendar.current.dateComponents([.hour], from: dateStart)
-        let timePointMinute = Calendar.current.dateComponents([.minute], from: dateStart)
-        
-        //end of repeater
-        let dateEndString = dateFormatter2.string(from: dateEndRepeat)
-        let repeatEndInt = Int(dateEndString)
-        print("end of repeat:")
-        print(repeatEndInt!)
-        
-        //counting the hour of beginning
-        let timePoint = timePointHour.hour! * 60 + timePointMinute.minute!
-        print("timePoint:")
-        print(timePoint)
-        
-        //importance value
-        print("importance:")
-        print(Int16(importancePicker.selectedSegmentIndex))
-
-        
-        //MARK: filling up the repeated dates
-        var temp = 0
-        var repeatDatesArray = [Int]()
-        
-        if repeater != 0 {
-            while dateInt! <= repeatEndInt! {
+        if dateEnd <= dateStart {
+            
+            let alert = UIAlertController(title: "Error", message: "Not applicable amount", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+            
+        } else {
+            
+            
+            //counting the duration
+            let interval = Calendar.current.dateComponents([.minute], from: dateStart, to: dateEnd)
+            let duration = interval.minute
+            print("duration:")
+            print(Int64(duration!))
+            
+            //id of the start date
+            let dateStringExtra = dateFormatter2.string(from: dateStart)
+            var dateInt = Int(dateStringExtra)
+            print("start date:")
+            print(dateInt!)
+            
+            //start time
+            let timePointHour = Calendar.current.dateComponents([.hour], from: dateStart)
+            let timePointMinute = Calendar.current.dateComponents([.minute], from: dateStart)
+            
+            //counting the hour of beginning
+            let timePoint = timePointHour.hour! * 60 + timePointMinute.minute!
+            print("timePoint:")
+            print(timePoint)
+            
+            //importance value
+            print("importance:")
+            print(Int16(importancePicker.selectedSegmentIndex))
+            
+            
+            //MARK: - filling up the repeated dates
+            var temp = 0
+            var repeatDatesArray = [Int]()
+            
+            //repeater amount
+            let repeater = Int(repeatLabelCounter.text!)
+            print("repeater:")
+            print(Int16(repeater!))
+            
+            if repeater != 0 {
+                let dateEndRepeat = dateFormatter3.date(from: repeatEndTextField.text!)!
                 
-                repeatDatesArray.append(dateInt!)
+                //end of repeater
+                let dateEndString = dateFormatter2.string(from: dateEndRepeat)
+                let repeatEndInt = Int(dateEndString)
+                print("end of repeat:")
+                print(repeatEndInt!)
                 
-                dateInt = dateInt! + repeater!
-                if dateInt! % 100 > monthsLastDay[month] {
-                            
-                    temp = dateInt! % 100 - monthsLastDay[month]
-                    dateInt = dateInt!/100 + 1
-                            
-                    if dateInt! % 100 > 12 {
-                        dateInt = dateInt!/100
-                        dateInt = dateInt! * 100 + 1 + 100
-                    }
+                while dateInt! <= repeatEndInt! {
                     
-                    dateInt = dateInt! * 100 + temp
+                    let _ = dataBase.newEvent(startDate: Int64(dateInt!), startTime: Int64(timePoint), duration: Int64(duration!), eventText: eventText.text ?? "", importance: Int16(importancePicker.selectedSegmentIndex), repeatCounter: Int16(repeater!))
+                    dataBase.saveContext()
+                    
+                    repeatDatesArray.append(dateInt!)
+                    
+                    dateInt = dateInt! + repeater!
+                    if dateInt! % 100 > monthsLastDay[month] {
+                                
+                        temp = dateInt! % 100 - monthsLastDay[month]
+                        dateInt = dateInt!/100 + 1
+                                
+                        if dateInt! % 100 > 12 {
+                            dateInt = dateInt!/100
+                            dateInt = dateInt! * 100 + 1 + 100
+                        }
+                        
+                        dateInt = dateInt! * 100 + temp
+                    }
+   
                 }
+                
+                dismiss(animated: true)
+                
+            } else {
+                
+                let _ = dataBase.newEvent(startDate: Int64(dateInt!), startTime: Int64(timePoint), duration: Int64(duration!), eventText: eventText.text ?? "", importance: Int16(importancePicker.selectedSegmentIndex), repeatCounter: Int16(repeater!))
+                dataBase.saveContext()
+                
+                dismiss(animated: true)
             }
         }
-        
-//        for member in repeatDatesArray {
-//            print(member)
-//        }
-        
-        
-        
-        let _ = dataBase.newEvent(startDate: Int64(dateInt!), startTime: Int64(timePoint), duration: Int64(duration!), eventText: eventText.text ?? "", importance: Int16(importancePicker.selectedSegmentIndex), repeatCounter: Int16(repeater!))
-        dataBase.saveContext()
-        
-        
-        dismiss(animated: true)
     }
     
         @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer){
