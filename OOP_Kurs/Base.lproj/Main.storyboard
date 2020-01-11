@@ -102,6 +102,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="eventNameLabel" destination="Ryb-3X-4vA" id="jfL-qE-GaJ"/>
+                                            <outlet property="timeStartLabel" destination="eHt-x0-rdh" id="BC5-Wn-RsO"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

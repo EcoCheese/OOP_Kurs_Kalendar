@@ -35,14 +35,30 @@ class DateCollectionViewCell: UICollectionViewCell {
         Rectangle.layer.backgroundColor = UIColor.clear.cgColor
     }
     
+    func eventFrameAppear() {
+            let pathRect = CGRect(x: 6.5, y: 1, width: 28, height: 28)
+            
+            let path = UIBezierPath(roundedRect: pathRect, cornerRadius: 5)
+            
+            
+            
+            let rectLayer = CAShapeLayer()
+            rectLayer.path = path.cgPath
+            rectLayer.strokeColor = UIColor.systemPurple.cgColor
+            rectLayer.lineWidth = 2
+    //        rectLayer.strokeEnd = 0
+            rectLayer.fillColor = UIColor.clear.cgColor
+            
+            Rectangle.layer.addSublayer(rectLayer)
+            Rectangle.layer.backgroundColor = UIColor.clear.cgColor
+        }
+    
     func rectangleAppear() {
 
         
         let pathRect = CGRect(x: 5.5, y: 0, width: 30, height: 30)
         
         let path = UIBezierPath(roundedRect: pathRect, cornerRadius: 5)
-        
-        
         
         let rectLayer = CAShapeLayer()
         rectLayer.path = path.cgPath

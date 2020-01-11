@@ -12,9 +12,11 @@ import UIKit
 var dateString = ""
 var monthString = ""
 var yearString = ""
-var event = [String()]
+
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDataSource, UITableViewDelegate{
+    
+    var eventArr = [Event]()
     
 
     @IBOutlet weak var Calendar: UICollectionView!
@@ -29,29 +31,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var tableView: UITableView!
     
     
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
-    var currentMonth = String()
-    
-    var numOfEmptyBox = Int() //amount of
-    var nextNumOfEmptyBox = Int()
-    var prevNumOfEmptyBox = 0
-    var direction = 0
-    var positionIndex = 0
-    var leapYear = 3
-    var dayCounter = 0
-    var dateSelection = -1
-    var selectedDate = 0
-    var cellId = 0
-    
-    var minMonth = String()
-    var plusMonth = String()
-    
-    //Function to make main.storyboard to appear
+    //MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        for event in Event {
+//            print(event.name)
+//        }
         
         currentMonth = months[month]
         if(currentMonth == "January"){
@@ -122,7 +109,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    // function of the button, that scrolls through monthes forward
+    // MARK: - Buttons
     
     @IBAction func Next(_ sender: Any) {
         
@@ -210,8 +197,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    // function of the button, that scrolls through monthes backward
-    
     @IBAction func Back(_ sender: Any) {
         
         dateSelection = -1
@@ -293,13 +278,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
     }
     
-    
+    //MARK: - Add event
     @IBAction func onAddEventClicked(_ sender: Any) {
         //MARK: very important variables
         
-        cellId = selectedDate*1000000 + (month+1)*10000 + year
-        print(cellId)
-        print(selectedDate, month+1, year)
+        cellId = selectedDate + (month+1)*100 + year*10000
+        tableView.reloadData()
+        
+//        print(selectedDate, month+1, year)
    
     }
     
@@ -361,7 +347,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             break
         }
         
-        if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 - numOfEmptyBox == day{
+        if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && day == indexPath.row + 1 - numOfEmptyBox{
 
             cell.Rectangle.isHidden = false
             cell.frameAppear()
@@ -372,8 +358,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
         if dateSelection == indexPath.row {
             
+//            print("currentMonth: \(currentMonth) = \(months[calendar.component(.month, from: date) - 1])")
+//            print("year: \(year) = \(calendar.component(.year, from: date))")
+//            print("day: \(day) = \(indexPath.row + 1 - numOfEmptyBox)")
+//            print("dateSelection: \(dateSelection) = \(indexPath.row)")
+            
             cellId = selectedDate + (month+1)*100 + year*10000
-            print(cellId)
+            
+            DispatchQueue.main.async {
+                self.eventArr = dataBase.fetchAll(predicate: NSPredicate(format: "startDate = %@", "\(cellId)"))
+                print(cellId)
+                print(self.eventArr)
+                self.tableView.reloadData()
+            }
+//            print(cellId)
             
             
             cell.Rectangle.isHidden = false
@@ -382,12 +380,18 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             cell.DateLabel.font = UIFont.boldSystemFont(ofSize: 16)
         }
         
+        
+        
         return cell
     }
     
     //function of selecting items in the collection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        
+
         
         dateString = "\(indexPath.row - positionIndex + 1)"
         monthString = "\(currentMonth)"
@@ -400,16 +404,57 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         Calendar.reloadData()
     }
     
+    //MARK: - Table View
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 50))
+        view.backgroundColor = .white
+        
+        let label = UILabel()
+//        label.font = UIFont.customFont(.medium, ofSize: 21)
+        label.text = "\(selectedDate) " + currentMonth + " \(year)"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(label)
+        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
+//        view.addSubview(button)
+
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        dataBase.delete(model: eventArr[indexPath.row])
+        eventArr.remove(at: indexPath.row)
+        dataBase.saveContext()
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return event.count
+        
+        return eventArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+//        let cellPredicate = NSPredicate(format: "\(cellId)")
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath) as! MonthTableViewCell
         
-        cell.eventNameLabel.text = "\(cellId)"
+        
+
+        let event = eventArr[indexPath.row]
+        cell.eventNameLabel.text = event.eventText
+        cell.timeStartLabel.text = "\(event.startTime)"
+        
+        
         
         return cell
     }
@@ -424,5 +469,4 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: bounds.width/8, height: 30)
     }
 }
-
 

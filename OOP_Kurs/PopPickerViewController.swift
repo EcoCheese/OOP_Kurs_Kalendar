@@ -45,6 +45,8 @@ class PopPickerViewController: UIViewController {
         
         //MARK: enabling textFields to show picked date
         
+//        startTextField.text = "\(cellId)"
+        
         //start date&time
         datePicker = UIDatePicker()
         datePicker?.minuteInterval = 5
@@ -130,6 +132,8 @@ class PopPickerViewController: UIViewController {
         print("importance:")
         print(Int16(importancePicker.selectedSegmentIndex))
 
+        
+        //MARK: filling up the repeated dates
         var temp = 0
         var repeatDatesArray = [Int]()
         
@@ -160,8 +164,8 @@ class PopPickerViewController: UIViewController {
         
         
         
-//        let _ = dataBase.newEvent(startDate: Int64(dateInt!), startTime: Int64(timePoint), duration: Int64(duration!), eventText: eventText.text ?? "", importance: Int16(importancePicker.selectedSegmentIndex), repeatCounter: Int16(repeater!))
-//        dataBase.saveContext()
+        let _ = dataBase.newEvent(startDate: Int64(dateInt!), startTime: Int64(timePoint), duration: Int64(duration!), eventText: eventText.text ?? "", importance: Int16(importancePicker.selectedSegmentIndex), repeatCounter: Int16(repeater!))
+        dataBase.saveContext()
         
         
         dismiss(animated: true)

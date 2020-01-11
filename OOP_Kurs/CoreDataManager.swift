@@ -62,6 +62,12 @@ class CoreDataStack {
         func fetchAll<T: NSManagedObject>(predicate: NSPredicate? = nil) -> [T] {
             let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
             fetchRequest.predicate = predicate
+            
+            
+             //check
+            let sortDescriptor = NSSortDescriptor(key: "startTime", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            
             do {
                 let models = try persistentContainer.viewContext.fetch(fetchRequest)
                 return models
@@ -88,6 +94,8 @@ extension CoreDataStack {
         
         return event
     }
+    
+    
     
 
 }
